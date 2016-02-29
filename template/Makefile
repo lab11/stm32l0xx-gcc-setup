@@ -3,6 +3,7 @@
 #currently tested on V1.5 with limited test code
 
 DEVICE_FAMILY_LOWER = $(shell echo $(DEVICE_FAMILY) | tr A-Z a-z)
+DEVICE_LOWER = $(shell echo $(DEVICE) | tr A-Z a-z)
 
 START_CODE ?= startup_$(DEVICE_FAMILY_LOWER).s
 SYSTEM_FILE ?= system_stm32l0xx.c
@@ -33,12 +34,12 @@ GDB = $(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-gdb
 
 print-% : ; @echo $* = $($*)
 
-LINKER_SCRIPT ?= stm32l0_$(DEVICE_FAMILY_LOWER).ld
+LINKER_SCRIPT ?= stm32l0_$(DEVICE_LOWER).ld
 LINKER_SCRIPT_INCLUDES = $(TEMPLATE_PATH)ld
 OUTPUT_NAME ?= $(PROJECT_NAME)
 
 LIBRARY_INCLUDES = $(addprefix -I,$(LIBRARY_PATHS))
-FILE_INCLUDES += ./stm32l0xx_conf.h
+FILE_INCLUDES += ./stm32l0xx_hal_conf.h
 
 VPATH = $(SOURCE_PATHS)
 
