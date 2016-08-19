@@ -1,4 +1,4 @@
-STM32L0XX
+STM32L1XX
 ==========
 
 This is a template to use the STM32L1xx with GCC and Makefiles.
@@ -8,7 +8,7 @@ It currently only runs on linux, and flashes programs with the JLink Segger prog
 To use this code:
 
 1. Download the STM [Standard Peripheral Library](http://www.st.com/web/catalog/tools/FM147/CL1794/SC961/SS1743/LN1939)
-for the STML0xx. Place it in a persistent location.
+for the STML1xx. Place it in a persistent location.
 
 2. Download and install the [JLink tools](https://www.segger.com/jlink-software.html)
 for your platform. Make sure that the binaries are added to your path.
