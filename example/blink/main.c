@@ -1,5 +1,5 @@
-#include "stm32l1xx_hal_gpio.h"
-#include "stm32l1xx_hal_rcc_ex.h"
+#include "stm32f0xx_gpio.h"
+#include "stm32f0xx_rcc.h"
 
 GPIO_InitTypeDef  GPIO_InitStructure;
 
@@ -19,18 +19,14 @@ int main(void)
 {
 
   /* GPIOC Periph clock enable */
-   // RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
-    RCC_PeriphCLKInitTypeDef PeriphClkInitStruct;
-    PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_RTC;
-    PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_LSI;
-    HAL_RCCEx_GetPeriphCLKConfig( & PeriphClkInitStruct);
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
 
-    GPIO_InitStructure.Pin = GPIO_PIN_8 | GPIO_PIN_9;
-    GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_PP;
-    //GPIO_InitStructure.OType = GPIO_OType_PP;
-    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStructure.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(GPIOC, &GPIO_InitStructure);
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
 
 
     for (;;)

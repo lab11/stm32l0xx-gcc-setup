@@ -6,18 +6,18 @@ DEVICE_FAMILY_LOWER = $(shell echo $(DEVICE_FAMILY) | tr A-Z a-z)
 DEVICE_LOWER = $(shell echo $(DEVICE) | tr A-Z a-z)
 
 START_CODE ?= startup_$(DEVICE_FAMILY_LOWER).s
-SYSTEM_FILE ?= system_stm32l1xx.c
+SYSTEM_FILE ?= system_stm32l0xx.c
 
-LIBRARY_PATHS += $(LIBRARY_START_PATH)Drivers/CMSIS/Device/ST/STM32L1xx/Include
+LIBRARY_PATHS += $(LIBRARY_START_PATH)Drivers/CMSIS/Device/ST/STM32L0xx/Include
 LIBRARY_PATHS += $(LIBRARY_START_PATH)Drivers/CMSIS/Include
-LIBRARY_PATHS += $(LIBRARY_START_PATH)Drivers/STM32L1xx_HAL_Driver/Inc/
+LIBRARY_PATHS += $(LIBRARY_START_PATH)Drivers/STM32L0xx_HAL_Driver/Inc/
 LIBRARY_PATHS += ./
 
 
 SOURCE_PATHS += $(TEMPLATE_PATH)
-SOURCE_PATHS += $(LIBRARY_START_PATH)Drivers/STM32L1xx_HAL_Driver/Src/
-SOURCE_PATHS += $(LIBRARY_START_PATH)Drivers/CMSIS/Device/ST/STM32L1xx/Source/Templates
-SOURCE_PATHS += $(LIBRARY_START_PATH)Drivers/CMSIS/Device/ST/STM32L1xx/Source/Templates/gcc
+SOURCE_PATHS += $(LIBRARY_START_PATH)Drivers/STM32L0xx_HAL_Driver/Src/
+SOURCE_PATHS += $(LIBRARY_START_PATH)Drivers/CMSIS/Device/ST/STM32L0xx/Source/Templates
+SOURCE_PATHS += $(LIBRARY_START_PATH)Drivers/CMSIS/Device/ST/STM32L0xx/Source/Templates/gcc
 
 
 #Setup toolchain
@@ -34,18 +34,18 @@ GDB = $(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-gdb
 
 print-% : ; @echo $* = $($*)
 
-LINKER_SCRIPT ?= stm32l1_$(DEVICE_LOWER).ld
+LINKER_SCRIPT ?= stm32l0_$(DEVICE_LOWER).ld
 LINKER_SCRIPT_INCLUDES = $(TEMPLATE_PATH)ld
 OUTPUT_NAME ?= $(PROJECT_NAME)
 
 LIBRARY_INCLUDES = $(addprefix -I,$(LIBRARY_PATHS))
-FILE_INCLUDES += ./stm32l1xx_hal_conf.h
+FILE_INCLUDES += ./stm32l0xx_hal_conf.h
 
 VPATH = $(SOURCE_PATHS)
 
 OUTPUT_PATH = _build/
 
-CPUFLAGS = -mthumb -mcpu=cortex-m3 -march=armv7-m
+CPUFLAGS = -mthumb -mcpu=cortex-m0 -march=armv6-m
 CFLAGS += -std=gnu99 -c $(CPUFLAGS) -nostdlib -Wall -D$(DEVICE_FAMILY) $(LIBRARY_INCLUDES) -s -ffunction-sections -fdata-sections -include $(FILE_INCLUDES) -MD
 LDFLAGS += $(CPUFLAGS) -L $(TEMPLATE_PATH) -L$(LINKER_SCRIPT_INCLUDES) -T $(LINKER_SCRIPT) -Wl,--gc-sections -Wl,-Map=$(OUTPUT_PATH)$(OUTPUT_NAME).Map
 OBJDUMP_FLAGS += --disassemble-all --source --disassembler-options=force-thumb -C --section-headers
